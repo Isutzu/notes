@@ -140,9 +140,9 @@ We can use *this* as the context if we are already in the context of the activit
 Android provides two ways of navigating between activities:
 *back navigation* and *up navigation.*
 
-*** Back navigation *** occurs when pressing the back button :arrow_left: on the Android phone. Every time an activity is started it is pushed into the *back stack* and gets focus so the user can interact with the activity. The back stack contains all the activities launched by the user within the app.When the user hits the back button again the current activity is destroyed from back stack and the previous one is resumed. The back stack can be configured to work in a different way.
+**Back navigation** occurs when pressing the back button :arrow_left: on the Android phone. Every time an activity is started it is pushed into the *back stack* and gets focus so the user can interact with the activity. The back stack contains all the activities launched by the user within the app.When the user hits the back button again the current activity is destroyed from back stack and the previous one is resumed. The back stack can be configured to work in a different way.
 
-*** Up navigation ***  occurs when the developer place an arrow key (usually in the action bar also called tool bar) so the user can navigate back to the previous activity. Additionally by declaring a Parent Activity
+**Up navigation**  occurs when the developer place an arrow key (usually in the action bar also called tool bar) so the user can navigate back to the previous activity. Additionally by declaring a Parent Activity
 in the AndroidManifest.xml file the system can place an arrow so the use can navigate back to the previous activity. Use the attribute `android:parentActivityName` for API 16 and above and use the `<meta-data>`
  tag for backwards Compatibility.
 
@@ -234,13 +234,17 @@ JUnit is a testing framework for Java
 **shortcut keys**
 <div style="background-color:#bef4df">
 
--  ``cmd + B `` press this key combination after placing he cursor in a resource
-declaration(string,color,etc) and it will take you to the folder where the  
-resource was declared.
+-  `cmd + B` press this key combination after placing he cursor in a resource
+declaration(string,color,etc) and it will take you to the folder where the resource was declared.
 
-- `` option + enter`` create a string resource from a hard coded string.
+- `option + return` extract hard coded string and create a recource string
 
-- ``ctrl + space`` place cursor on the method and click this keys to show the parameters and documentation.
+- `cmd + click` jump to the file that is pointed byt the cursor.
+
+- `option + enter` create a string resource from a hard coded string.
+
+- `ctrl + space` place cursor on the method and click this keys to show the parameters and documentation.
+
 </div>
 
 **Notes**
@@ -249,13 +253,10 @@ resource was declared.
 
 `Adding dependencies on Android Studio`   File->Project Structure->app->Dependencie tab 
 
-`option + return` extract hard coded string and create a recource string
-
-`cmd + click` jump to the file that is pointed byt the cursor.
 
 <br>
 
-** java resources **
+**Java resources**
 
 - [Abstract class](https://www.javatpoint.com/abstract-class-in-java)
 

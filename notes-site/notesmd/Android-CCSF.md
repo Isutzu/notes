@@ -194,7 +194,7 @@ This is a modifiable file. Whatever is in your package is represented here
 __Bundle__ class is in charge of data exchanging between activities
 __AsyncTask__ class is in charge of running several activities simultaneously
 
-***How to access TextView from Java **
+**How to access a TextView from Java**
 
 Asssuming we don't have the line `android:text` in pur xml file we can set the text in tho way:
 
@@ -203,4 +203,299 @@ TextView tv = (TextView)findViewById(R.id.text1);
 tv.setText(This is line1);
 tv.setTextColor(red);
 ```
+__findViewById()__ : get references from a widget
+We need cast  it because is a general purpose method and it doesn't know what specific resource or to what class is being assigned
 
+__Some attributes__
+```xml
+android:width="…."
+android:height="…."
+android:textSize="…" //font size
+android:ellipsize="none" // when line is very long. it will cut the line and put an ellipses(…)
+             ellipsize values: none, start,end, middle.
+android:marquee="true"//if line is too long it creates a horizontal scrollbar
+android:layout_width="fill_parent" //in modern version of android is called match_parent,
+                                    fill_parent will be deprecated
+android:layout_width="10dp"
+android:layout_height
+```
+
+- Whenever we are using strings, whatever is in the xml file will com out first, but this could be change later.
+
+- Inside xml class, the tags we are using are subclassing View class.
+Inside the xml file we can put our own class but it needs to be fully qualified, we need to explicit the name of the package.
+
+```
+<TextView….>
+     <com.cs211s.ExplodeIt…>
+```
+
+The condition is the class we insert in xml file  needs to subclass View and it needs to be fully qualified.
+all of the attributes are part of View class, therefore we can use attributes because we are subclassing View.
+
+- It is also possible to make our own attributes
+
+__Unit measures__
+
+In android we can use pixels(px),inches(4in), milimmiters(4mm),point(7pt),density independent pixel(6dp).
+dp, sp(12sp).
+dp : is independent of the resolution cellphone is using. It depends on how dense the pixels of the device is.
+sp : It is use for fonts.
+
+__Button class__
+
+Button is subclassing TextView, whatever is available for TextView is available also for button.
+When working with buttons we need to create a method in java file, which is responsible for putting action to the button.
+
+```java
+public voir doit(View v)
+{
+     --
+     --
+}
+
+// In the layout file we need to have an attribute:
+<Button
+     android:onClick="doit"
+     ...
+     ...
+```
+- If we have more than one button, for each button we need different button tags.
+- We can respond to the action of different buttons using only one method. Traditionally the name of the method
+is called buttonHandler:
+         ` public void buttonHandler(View v)`
+
+- View class has int v.getId() method which returns the id of the button
+
+```java
+public   void buttonHandler(View v)
+{
+   switch(v.getId())
+   {
+      case R.id.b1: loadfile(); break;
+
+      case R.id.b2: readfile(); break;
+   }
+}
+```
+For graphics we need use graphics package: `android.graphics.*;`
+We have two important classes:
+Canvas class and Paint class:
+   - Canvas defines what to be drawn(object, geometrical shape)  . It contains drawCircle, etc
+   - Canvas is a borderless graphic area.
+
+   - Paint defines how that shape will be drawn. We can define the type of fonts in graphics, dotted lines, etc
+   We need create object of Canvas and Paint.
+
+Normally we need to make our own class when working with graphics and then we make our activity call the class we have created.
+
+__How to draw a Line__
+
+```java
+package good.stuff;
+import android.graphics.*;
+import android.view.View;
+import android.content.Context;
+//This  is an external or individual class
+//However many people create inside the activity class
+public class DrawView extends View
+{
+ // Paint p = new Paint(); creates a NOT smooth shape
+     Paint p = new Paint(Paint.ANTI_ALIAS_FLAG); //creates a smooth shape
+     public DrawView(Context con)
+     {
+         super(con);
+         p.setColor(Color.BLACK);
+     }
+ //We need override callback method onDraw
+     @override
+     public void onDraw(Canvas c)
+     {
+         c.drawLine(0,0,20,20,p); --> //c.drawLine(x1,y1,x2,y2,object of paint)
+         c.drawLine(20,20,0,0,p);
+     }
+
+}
+```
+
+```java
+package good.stuff;
+import android.app.Activity;
+import android.graphics.Color;
+import android.OS.Bundle;
+
+public class DemoDrawLine extends Activity
+{
+   DrawView dv;
+   @Override
+   public void onCreate(Bundle b)
+   {
+      //Activity is subclassing Context
+      super.onCreate(b);
+      dv = new DrawView(this);/--> this is Context
+      dv.setBackgroundColor(Color.WHITE);
+      setContentView(dv);
+      //object of view or any class subclassing View
+      //whenever contentview is called the screen will be refreshed
+      //we can create a tag in xml file but dont forget the full qualified package
+      //and then setContentView(R.layout.main)
+   }
+}
+```
+__Drawing a line using XML__
+```xml
+<VIew
+     android:layout_width="fill_parent"
+     android:layout_height="1dp"
+     android:background="#cccccc"
+     android:paddingTop="20dp"
+/>
+```
+__How to draw a Circle__
+
+```java
+package good.stuff;
+import android.graphics.*;
+import android.view.View;
+import android.content.Context;
+
+public class DrawCircle extends View
+{
+     public DrawCircle(Context con)
+     {
+         super(con);
+
+     }
+     @override
+     purotect void onDraw(Canvas c)
+     {
+         super.onDraw(c);
+         paint p = new paint();
+         p.setColor(Color.RED);
+         p.setStyle(paint.Style.FILL);
+         c.drawCircle(75,75,100,p);//x,y,radius,p
+     }
+
+}
+//--------------------------------------------
+package good.stuff;
+import android.app.Activity;
+import android.graphics.Color;
+import android.OS.Bundle;
+
+public class DemoDrawCircle extends Activity
+{
+
+   @Override
+   public void onCreate(Bundle b)
+   {
+      super.onCreate(b);
+      setContentView(new DrawCircle(this));
+   }
+}
+```
+__How to create a color__
+
+`int c = Color.rgb(int r, int g, int b);`
+
+__How to know the amount of a color__
+
+```java
+int red = Color.red(int color)
+int blue =  Color.blue(..)
+int green = Color.green(…)
+```
+__How to create empty Circle__
+
+`p.setStyle(paint.Style.STROKE);`
+
+__How to get the Screen Size__
+
+```java
+It returns an array of width and height in pixels
+
+public int[] getScreenSize()
+{
+     int dim[]={0,0};
+     paint p =new paint();
+     WindowManager wm = getWindowManager();
+     if(Build.VERSION.SDK_INT >= Buils.VERSION_CODES.HONEYCOMB_MR2)
+     {
+          wm.getDefaultDisplay().getSize(p);
+          dim[0] = p.x; dim[1] = p.y;
+     }
+     else
+     {
+          Display d = wm.defaultDisplay();
+          dim[0]=d.getWidth();
+          dim[1] = d.getHeight();
+     }
+     return(dim);
+}
+
+//In our code
+int w = getScreenSize[0];
+int h = getScreenSize[1];
+```
+
+__How to print text in Canvas__
+
+```java
+c.drawText("Hello Jhon",75,85,p);//c is objet of Canvas
+p.setAntiAlias(true);
+p.setSize(30);//maximun size for our string in px
+c.drawColor(Color.TRANSPARENT)// clear the screen. Color.Black
+                                                     //In some version it doesn't work
+```                                                     
+
+__Another alternative for clearing screen__
+`c.drawColor(Color.TRANSPARENT, PorterDuff.ModeCLEAR);`
+
+__How to draw a Triangle__
+
+```java
+p.setStyle(paint.Style.STROKE);// empty triangle
+p.setStrokeWidth(g);// width of line
+p.setColor(Color.RED);
+Path pt = new Path();
+pt.moveTo(x[0],y[0]);
+pt.lineTo(x[1],y[1]);
+pt.lineTo(x[2],y[2]);
+pt.lineTo(x[0],y[0]);
+pt.offset(10,40);//offset of initial location(10,40) to go another place in screen
+pt.drawPath(pt,p);
+pt.offset(50,100);
+pt.drawPath(pt,p);
+
+// We can use any methods of Canvas and Paint class
+```
+
+In Android we have `invalidate()` similar to `repaint()` in Java. It is a View method
+invalidate() will call view(). we can call it inside the class drawing the circle or we can call it also in our activity.
+But if it s taking more that 5 seconds we need use thread. invalidate is used only in activity or inside class that extends view.
+
+```java
+If we have a thread we call postInvalidate()
+
+ public MyView(context con)
+{
+     super(con)
+}
+ //This constructor is made if we are calling our view class from //our activity, not from our xml 
+setContentView(new MyView(this))
+
+public myView(context con, AttributeSet attrs)
+{
+     super(con,attrs);
+}
+When creating our xml tag it normally has one or more attributes
+
+public MyView(Context con,AttributesSet attrs, int style)
+{
+     super(con,attrs,atyle);
+}
+```
+- Each widget comes with a bunch of styles we can use . those styles can be passed to our View.
+If we want to do this we need this constructor
+
+- We can use `android:weight` to put buttons side by side in the way we want
